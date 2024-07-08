@@ -57,7 +57,7 @@ const Home = () => {
             </div>
             <div>
               <p>{datas.name}</p>
-              <p>{datas.artist}</p>
+              <p>{datas.artist}</p> 
             </div>
           </div>
         ))}
