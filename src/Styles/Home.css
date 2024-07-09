@@ -21,11 +21,13 @@
 }
 
 .for-you {
+    font-size: 24px;
     font-weight: 700;
     color: #FFFFFF;
 }
 
 .top-track {
+    font-size: 24px;
     font-weight: 700;
     color: #FFFFFF;
 }
@@ -42,6 +44,7 @@
     justify-content: left;
     align-items: center;
     gap: 25px;
+    padding-bottom: 7px;
 }
 
 .image-container {
@@ -52,12 +55,27 @@
 }
 
 .logo {
-    height: 30px;
+    height: 34px;
     width: 101px;
+    padding-top: 4px;
 }
 
 .profile {
     height: 40px;
     width: 43px;
+}
+
+.song-name{
+    font-size: 14px;
+    font-weight: 400;
+    color: #FFFFFF;
+    margin-bottom: 0px;
+}
+
+.artist{
+    font-size: 14px;
+    font-weight: 400;
+    color: #FFFFFF;
+    margin-bottom: 0px;
 }
 

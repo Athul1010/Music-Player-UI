@@ -30,7 +30,7 @@ const Home = () => {
           {/* Left Side */}
           <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12">
           <div className="image-container">
-              <img src={Logo} alt="Logo" className="img-fluid my-3 logo" />
+              <img src={Logo} alt="Logo" className="img-fluid logo" />
               <img src={profile} alt="Profile" className="img-fluid my-3 profile" />
             </div>
           </div>
@@ -63,8 +63,8 @@ const Home = () => {
                     <img src={`https://cms.samespace.com/assets/${song.cover}`} alt={song.name} className="img-fluid" />
                   </div>
                   <div className='names'>
-                    <p>{song.name}</p>
-                    <p>{song.artist}</p>
+                    <p className='song-name'>{song.name}</p>
+                    <p className='artist'>{song.artist}</p>
                   </div>
                 </div>
               ))}
