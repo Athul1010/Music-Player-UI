@@ -36,3 +36,19 @@
     transform: rotate(360deg);
   }
 }
+
+
+
+
+
+
+
+
+
+/* test styles */
+/* .landing-conteiner{
+  height: 100%;
+} */
+.h-100{
+  height: 100vh;
+}
