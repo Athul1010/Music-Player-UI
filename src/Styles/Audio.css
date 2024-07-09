@@ -149,5 +149,12 @@
     object-fit: contain;
 }
 
+@media only screen and (max-width: 768px){
+    .audio-section{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
 
 

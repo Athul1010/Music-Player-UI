@@ -10,7 +10,7 @@ const Audio = () => {
   const currentAudio = useRef()  
   return (
     <>
-    <div className="container">
+    <div className="container audio-section">
       <audio src='./Assets/songs/Chasing - NEFFEX.mp3' ref={currentAudio} onEnded={''} onTimeUpdate={''}></audio>
       <div className="blackScreen"></div>
       <div className="music-Container">

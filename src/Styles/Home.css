@@ -56,9 +56,9 @@
 }
 
 .logo {
-    height: 34px;
+    height: 30px;
     width: 101px;
-    padding-top: 4px;
+    /* padding-top: 4px; */
 }
 
 .profile {
@@ -79,4 +79,31 @@
     color: #FFFFFF;
     margin-bottom: 0px;
 }
+.menu{
+    color: #00A948;
+    font-size: 26px;
+}
+.menu-items {
+    /* text-align: left; */
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
 
+
+@media only screen and (max-width: 768px){
+    .song-wrapper{
+        display: none;
+    }
+    .menu{
+        display: block;
+    }
+}
+@media only screen and (min-width: 768px){
+    .song-wrapper{
+        display: block;
+    }
+    .menu{
+        display: none;
+    }
+}
