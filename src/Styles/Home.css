@@ -1,5 +1,6 @@
 .music-app-section {
     background: rgb(26, 15, 5);
+    overflow: hidden;
 }
 
 .images img {

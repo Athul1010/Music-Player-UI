@@ -9,6 +9,7 @@ import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 
 import '../Styles/Home.css';
+import Audio from './Audio';
 
 const Home = () => {
   const [songs, setSongs] = useState([]);
@@ -74,8 +75,9 @@ const Home = () => {
           {/* Right Side */}
           <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12">
             <div>
-              <h1 className="text-center">hellooo</h1>
-              <img src="" alt="" className="img-fluid my-3" />
+              {/* <h1 className="text-center">hellooo</h1>
+              <img src="" alt="" className="img-fluid my-3" /> */}
+              <Audio/>
             </div>
           </div>
         </div>
