@@ -1,8 +1,63 @@
-.images img{
-    height: 30px;
-    border-radius: 50%;
+.music-app-section {
+    background: rgb(26, 15, 5);
 }
-.search{
+
+.images img {
+    height: 36px;
+    border-radius: 50%;
+    width: 37px;
+}
+
+.search {
     display: flex;
     justify-content: center;
 }
+
+.tracks {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    gap: 30px;
+}
+
+.for-you {
+    font-weight: 700;
+    color: #FFFFFF;
+}
+
+.top-track {
+    font-weight: 700;
+    color: #FFFFFF;
+}
+
+.names p {
+    margin-bottom: 0px;
+    text-align: left;
+    /* font-weight: 400;
+    color: #FFFFFF; */
+}
+
+.contents {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    gap: 25px;
+}
+
+.image-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.logo {
+    height: 30px;
+    width: 101px;
+}
+
+.profile {
+    height: 40px;
+    width: 43px;
+}
+
