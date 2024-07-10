@@ -9,7 +9,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { GiHamburgerMenu } from "react-icons/gi";
 import Audio from './Audio';
 import Sidebar from './Sidebar';
-import '../Styles/Home.css';
+
 
 const Home = () => {
   const [songs, setSongs] = useState([]);

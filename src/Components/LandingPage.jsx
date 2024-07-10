@@ -10,6 +10,9 @@ import Sidebar from './Sidebar';
 import { GiHamburgerMenu } from "react-icons/gi";
 import { faBackward, faForward, faPauseCircle, faCirclePlay } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FaVolumeUp } from "react-icons/fa";
+import { SlOptions } from "react-icons/sl";
+import '../Styles/LandingPage.css'
 
 const SearchBar = () => (
     <Paper
@@ -26,9 +29,11 @@ const SearchBar = () => (
     </Paper>
 );
 
-const MusicPlayer = ({ song, isAudioPlaying, togglePlay, handleNext, handlePrev }) => {
+const MusicPlayer = ({ song, isAudioPlaying, togglePlay, handleNext, handlePrev, backgroundColor }) => {
     const audioRef = useRef(null);
     const progressBarRef = useRef(null);
+    const [volume, setVolume] = useState(1); // State to manage volume
+    const [isVolumeSliderVisible, setIsVolumeSliderVisible] = useState(false); // State to toggle volume slider
 
     useEffect(() => {
         if (audioRef.current) {
@@ -40,13 +45,27 @@ const MusicPlayer = ({ song, isAudioPlaying, togglePlay, handleNext, handlePrev 
         }
     }, [isAudioPlaying, song]);
 
+    useEffect(() => {
+        if (audioRef.current) {
+            audioRef.current.volume = volume; // Update audio volume
+        }
+    }, [volume]);
+
     const handleProgressChange = (e) => {
         const currentTime = (e.target.value / 100) * audioRef.current.duration;
         audioRef.current.currentTime = currentTime;
     };
 
+    const toggleVolumeSlider = () => {
+        setIsVolumeSliderVisible(!isVolumeSliderVisible); // Toggle volume slider visibility
+    };
+
+    const handleVolumeChange = (e) => {
+        setVolume(e.target.value); // Update volume state
+    };
+
     return (
-        <div>
+        <div style={{ backgroundColor }}>
             <div className='music-text-head'>
                 <p className='music-Head-Name'>{song.name}</p>
                 <p className='music-Artist-Name'>{song.artist}</p>
@@ -65,9 +84,28 @@ const MusicPlayer = ({ song, isAudioPlaying, togglePlay, handleNext, handlePrev 
                 value={(audioRef.current ? audioRef.current.currentTime / audioRef.current.duration * 100 : 0)}
             />
             <div className="musicControllers">
-                <FontAwesomeIcon icon={faBackward} className='fa-solid musicController' onClick={handlePrev} />
-                <FontAwesomeIcon icon={isAudioPlaying ? faPauseCircle : faCirclePlay} className={`fa-solid ${isAudioPlaying ? 'fa-pause-circle' : 'fa-circle-play'} playBtn`} onClick={togglePlay} />
-                <FontAwesomeIcon icon={faForward} className='fa-solid musicController' onClick={handleNext} />
+                <div>
+                    <span className='option-set'><SlOptions /></span>
+                </div>
+                <div className="mainControllers">
+                    <FontAwesomeIcon icon={faBackward} className='fa-solid musicController' onClick={handlePrev} />
+                    <FontAwesomeIcon icon={isAudioPlaying ? faPauseCircle : faCirclePlay} className={`fa-solid ${isAudioPlaying ? 'fa-pause-circle' : 'fa-circle-play'} playBtn`} onClick={togglePlay} />
+                    <FontAwesomeIcon icon={faForward} className='fa-solid musicController' onClick={handleNext} />
+                </div>
+                <div>
+                    <span className='volume-set' onClick={toggleVolumeSlider}><FaVolumeUp /></span>
+                    {isVolumeSliderVisible && (
+                        <input
+                            type="range"
+                            min="0"
+                            max="1"
+                            step="0.01"
+                            value={volume}
+                            onChange={handleVolumeChange}
+                            className="volumeSlider"
+                        />
+                    )}
+                </div>
             </div>
             <audio ref={audioRef} src={song.url} onTimeUpdate={() => {
                 if (progressBarRef.current) {
@@ -90,6 +128,7 @@ export default function LandingPage() {
     const [currentSong, setCurrentSong] = useState(null);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [backgroundColor, setBackgroundColor] = useState('#0D0D0D'); // Default background color
 
     const handleSidebarOpen = () => setIsSidebarOpen(true);
     const handleSidebarClose = () => setIsSidebarOpen(false);
@@ -123,17 +162,23 @@ export default function LandingPage() {
             .catch(error => console.error('Fetching error:', error));
     }, []);
 
+    useEffect(() => {
+        if (currentSong) {
+            setBackgroundColor(currentSong.accent);
+        }
+    }, [currentSong]);
+
     return (
-        <div className='landing-container container-fluid' style={{ backgroundColor: "#000" }}>
+        <div className='landing-container container-fluid' style={{ backgroundColor }}>
             <div className='d-flex row'>
-                <div className='d-flex justify-content-between p-4 d-md-none' style={{ background: "#000" }}>
+                <div className='d-flex justify-content-between p-4 d-md-none' style={{  }}>
                     <img src={profile} alt="profile" className="img-fluid" style={{ height: "50px" }} />
                     <img src={Logo} alt="Logo" className="img-fluid logo" />
                     <span className='menu' onClick={handleSidebarOpen}><GiHamburgerMenu /></span>
                 </div>
                 <div className='col-6 d-none d-md-block d-flex justify-content-center align-items-center'>
                     <div className="h-100 d-flex w-100 justify-content-between py-5 px-3">
-                        <div className='h-100 d-flex flex-column align-items-start' style={{ background: "#000" }}>
+                        <div className='h-100 d-flex flex-column align-items-start' style={{  }}>
                             <img src={Logo} alt="Logo" className="img-fluid logo mb-auto" />
                             <img src={profile} alt="profile" className="img-fluid" />
                         </div>
@@ -156,7 +201,7 @@ export default function LandingPage() {
                                     </div>
                                     <div className='names'>
                                         <p className='song-name'>{song.name}</p>
-                                        <p className='artist'style={{color:"rgb(178 177 177)"}} >{song.artist}</p>
+                                        <p className='artist' style={{color:"rgb(178 177 177)"}}>{song.artist}</p>
                                     </div>
                                 </div>
                             ))}
@@ -171,6 +216,7 @@ export default function LandingPage() {
                             togglePlay={togglePlay}
                             handleNext={handleNext}
                             handlePrev={handlePrev}
+                            backgroundColor={backgroundColor}
                         />
                     )}
                 </div>
