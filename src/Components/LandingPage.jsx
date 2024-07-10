@@ -12,16 +12,18 @@ import { faBackward, faForward, faPauseCircle, faCirclePlay } from '@fortawesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FaVolumeUp } from "react-icons/fa";
 import { SlOptions } from "react-icons/sl";
-import '../Styles/LandingPage.css'
+import '../Styles/LandingPage.css';
 
-const SearchBar = () => (
+const SearchBar = ({ searchTerm, handleSearchChange }) => (
     <Paper
         component="form"
         sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: '100%', backgroundColor: '#333' }}
     >
         <InputBase
             sx={{ ml: 1, flex: 1, color: 'rgb(178 177 177)' }}
-            placeholder="Search Songs"
+            placeholder="Search Songs by Name"
+            value={searchTerm}
+            onChange={handleSearchChange}
         />
         <IconButton type="submit" sx={{ p: '10px', color: 'rgb(178 177 177)' }} aria-label="search">
             <SearchIcon />
@@ -32,8 +34,8 @@ const SearchBar = () => (
 const MusicPlayer = ({ song, isAudioPlaying, togglePlay, handleNext, handlePrev, backgroundColor }) => {
     const audioRef = useRef(null);
     const progressBarRef = useRef(null);
-    const [volume, setVolume] = useState(1); // State to manage volume
-    const [isVolumeSliderVisible, setIsVolumeSliderVisible] = useState(false); // State to toggle volume slider
+    const [volume, setVolume] = useState(1);
+    const [isVolumeSliderVisible, setIsVolumeSliderVisible] = useState(false);
 
     useEffect(() => {
         if (audioRef.current) {
@@ -47,7 +49,7 @@ const MusicPlayer = ({ song, isAudioPlaying, togglePlay, handleNext, handlePrev,
 
     useEffect(() => {
         if (audioRef.current) {
-            audioRef.current.volume = volume; // Update audio volume
+            audioRef.current.volume = volume;
         }
     }, [volume]);
 
@@ -57,11 +59,11 @@ const MusicPlayer = ({ song, isAudioPlaying, togglePlay, handleNext, handlePrev,
     };
 
     const toggleVolumeSlider = () => {
-        setIsVolumeSliderVisible(!isVolumeSliderVisible); // Toggle volume slider visibility
+        setIsVolumeSliderVisible(!isVolumeSliderVisible);
     };
 
     const handleVolumeChange = (e) => {
-        setVolume(e.target.value); // Update volume state
+        setVolume(e.target.value);
     };
 
     return (
@@ -122,13 +124,15 @@ const formatTime = (time) => {
     return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 };
 
-export default function LandingPage() {
+const LandingPage = () => {
     const [isAudioPlaying, setIsAudioPlaying] = useState(false);
     const [songs, setSongs] = useState([]);
+    const [filteredSongs, setFilteredSongs] = useState([]);
     const [currentSong, setCurrentSong] = useState(null);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    const [backgroundColor, setBackgroundColor] = useState('#0D0D0D'); // Default background color
+    const [backgroundColor, setBackgroundColor] = useState('#0D0D0D');
+    const [searchTerm, setSearchTerm] = useState('');
 
     const handleSidebarOpen = () => setIsSidebarOpen(true);
     const handleSidebarClose = () => setIsSidebarOpen(false);
@@ -156,9 +160,22 @@ export default function LandingPage() {
         }
     };
 
+    const handleSearchChange = (event) => {
+        const searchTerm = event.target.value;
+        setSearchTerm(searchTerm);
+
+        const filteredData = songs.filter((song) =>
+            song.name.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        setFilteredSongs(filteredData);
+    };
+
     useEffect(() => {
         axios.get('https://cms.samespace.com/items/songs')
-            .then(res => setSongs(res.data.data))
+            .then(res => {
+                setSongs(res.data.data);
+                setFilteredSongs(res.data.data);
+            })
             .catch(error => console.error('Fetching error:', error));
     }, []);
 
@@ -169,16 +186,16 @@ export default function LandingPage() {
     }, [currentSong]);
 
     return (
-        <div className='landing-container container-fluid' style={{ backgroundColor }}>
+        <div className='landing-container container-fluid min-height-100' style={{ backgroundColor }}>
             <div className='d-flex row'>
-                <div className='d-flex justify-content-between p-4 d-md-none' style={{  }}>
+                <div className='d-flex justify-content-between p-4 d-md-none'>
                     <img src={profile} alt="profile" className="img-fluid" style={{ height: "50px" }} />
                     <img src={Logo} alt="Logo" className="img-fluid logo" />
                     <span className='menu' onClick={handleSidebarOpen}><GiHamburgerMenu /></span>
                 </div>
                 <div className='col-6 d-none d-md-block d-flex justify-content-center align-items-center'>
                     <div className="h-100 d-flex w-100 justify-content-between py-5 px-3">
-                        <div className='h-100 d-flex flex-column align-items-start' style={{  }}>
+                        <div className='h-100 d-flex flex-column align-items-start'>
                             <img src={Logo} alt="Logo" className="img-fluid logo mb-auto" />
                             <img src={profile} alt="profile" className="img-fluid" />
                         </div>
@@ -188,12 +205,12 @@ export default function LandingPage() {
                                 <h4 className='top-track'>Top Tracks</h4>
                             </div>
                             <div className='search my-3'>
-                                <SearchBar />
+                                <SearchBar searchTerm={searchTerm} handleSearchChange={handleSearchChange} />
                             </div>
-                            {songs.map(song => (
-                                <div 
-                                    className={`${currentSong && currentSong.id === song.id ? 'selected-song' : ''} contents cursor-pointer p-2`} 
-                                    key={song.id} 
+                            {filteredSongs.map(song => (
+                                <div
+                                    className={`${currentSong && currentSong.id === song.id ? 'selected-song' : ''} contents cursor-pointer p-2`}
+                                    key={song.id}
                                     onClick={() => handleSelectSong(song)}
                                 >
                                     <div className='images'>
@@ -201,7 +218,7 @@ export default function LandingPage() {
                                     </div>
                                     <div className='names'>
                                         <p className='song-name'>{song.name}</p>
-                                        <p className='artist' style={{color:"rgb(178 177 177)"}}>{song.artist}</p>
+                                        <p className='artist' style={{ color: "rgb(178 177 177)" }}>{song.artist}</p>
                                     </div>
                                 </div>
                             ))}
@@ -224,4 +241,6 @@ export default function LandingPage() {
             <Sidebar isOpen={isSidebarOpen} onClose={handleSidebarClose} />
         </div>
     );
-}
+};
+
+export default LandingPage;
