@@ -205,5 +205,9 @@
     color: #fff;
 }
 
+.landing-container{
+    min-height: 100vh;
+}
+
 
 

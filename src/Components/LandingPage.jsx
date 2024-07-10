@@ -186,7 +186,7 @@ const LandingPage = () => {
     }, [currentSong]);
 
     return (
-        <div className='landing-container container-fluid min-height-100' style={{ backgroundColor }}>
+        <div className='landing-container container-fluid' style={{ backgroundColor }}>
             <div className='d-flex row'>
                 <div className='d-flex justify-content-between p-4 d-md-none'>
                     <img src={profile} alt="profile" className="img-fluid" style={{ height: "50px" }} />
