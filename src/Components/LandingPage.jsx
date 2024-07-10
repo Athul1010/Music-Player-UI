@@ -12,6 +12,7 @@ import { faBackward, faForward, faPauseCircle, faCirclePlay } from '@fortawesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FaVolumeUp } from "react-icons/fa";
 import { SlOptions } from "react-icons/sl";
+import ScaleLoader from "react-spinners/ScaleLoader";
 import '../Styles/LandingPage.css';
 
 const SearchBar = ({ searchTerm, handleSearchChange }) => (
@@ -133,6 +134,8 @@ const LandingPage = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [backgroundColor, setBackgroundColor] = useState('#0D0D0D');
     const [searchTerm, setSearchTerm] = useState('');
+    const [loading, setLoading] = useState(true);
+    const loadingDuration = 3000; // loading duration 
 
     const handleSidebarOpen = () => setIsSidebarOpen(true);
     const handleSidebarClose = () => setIsSidebarOpen(false);
@@ -171,13 +174,19 @@ const LandingPage = () => {
     };
 
     useEffect(() => {
-        axios.get('https://cms.samespace.com/items/songs')
-            .then(res => {
-                setSongs(res.data.data);
-                setFilteredSongs(res.data.data);
-            })
-            .catch(error => console.error('Fetching error:', error));
-    }, []);
+        setTimeout(() => {
+            axios.get('https://cms.samespace.com/items/songs')
+                .then(res => {
+                    setSongs(res.data.data);
+                    setFilteredSongs(res.data.data);
+                    setLoading(false);
+                })
+                .catch(error => {
+                    console.error('Fetching error:', error);
+                    setLoading(false);
+                });
+        }, loadingDuration);
+    }, [loadingDuration]);
 
     useEffect(() => {
         if (currentSong) {
@@ -187,57 +196,63 @@ const LandingPage = () => {
 
     return (
         <div className='landing-container container-fluid' style={{ backgroundColor }}>
-            <div className='d-flex row'>
-                <div className='d-flex justify-content-between p-4 d-md-none'>
-                    <img src={profile} alt="profile" className="img-fluid" style={{ height: "50px" }} />
-                    <img src={Logo} alt="Logo" className="img-fluid logo" />
-                    <span className='menu' onClick={handleSidebarOpen}><GiHamburgerMenu /></span>
+            {loading ? (
+                <div className="loader">
+                    <ScaleLoader color={'#3AC417'} loading={loading} size={150} />
                 </div>
-                <div className='col-6 d-none d-md-block d-flex justify-content-center align-items-center'>
-                    <div className="h-100 d-flex w-100 justify-content-between py-5 px-3">
-                        <div className='h-100 d-flex flex-column align-items-start'>
-                            <img src={Logo} alt="Logo" className="img-fluid logo mb-auto" />
-                            <img src={profile} alt="profile" className="img-fluid" />
-                        </div>
-                        <div className='song-wrapper'>
-                            <div className='tracks text-center'>
-                                <h4 className='for-you'>For You</h4>
-                                <h4 className='top-track'>Top Tracks</h4>
+            ) : (
+                <div className='d-flex row'>
+                    <div className='d-flex justify-content-between p-4 d-md-none'>
+                        <img src={profile} alt="profile" className="img-fluid" style={{ height: "50px" }} />
+                        <img src={Logo} alt="Logo" className="img-fluid logo" />
+                        <span className='menu' onClick={handleSidebarOpen}><GiHamburgerMenu /></span>
+                    </div>
+                    <div className='col-6 d-none d-md-block d-flex justify-content-center align-items-center'>
+                        <div className="h-100 d-flex w-100 justify-content-between py-5 px-3">
+                            <div className='h-100 d-flex flex-column align-items-start'>
+                                <img src={Logo} alt="Logo" className="img-fluid logo mb-auto" />
+                                <img src={profile} alt="profile" className="img-fluid" />
                             </div>
-                            <div className='search my-3'>
-                                <SearchBar searchTerm={searchTerm} handleSearchChange={handleSearchChange} />
-                            </div>
-                            {filteredSongs.map(song => (
-                                <div
-                                    className={`${currentSong && currentSong.id === song.id ? 'selected-song' : ''} contents cursor-pointer p-2`}
-                                    key={song.id}
-                                    onClick={() => handleSelectSong(song)}
-                                >
-                                    <div className='images'>
-                                        <img src={`https://cms.samespace.com/assets/${song.cover}`} alt={song.name} className="img-fluid" />
-                                    </div>
-                                    <div className='names'>
-                                        <p className='song-name'>{song.name}</p>
-                                        <p className='artist' style={{ color: "rgb(178 177 177)" }}>{song.artist}</p>
-                                    </div>
+                            <div className='song-wrapper'>
+                                <div className='tracks text-center'>
+                                    <h4 className='for-you'>For You</h4>
+                                    <h4 className='top-track'>Top Tracks</h4>
                                 </div>
-                            ))}
+                                <div className='search my-3'>
+                                    <SearchBar searchTerm={searchTerm} handleSearchChange={handleSearchChange} />
+                                </div>
+                                {filteredSongs.map(song => (
+                                    <div
+                                        className={`${currentSong && currentSong.id === song.id ? 'selected-song' : ''} contents cursor-pointer p-2`}
+                                        key={song.id}
+                                        onClick={() => handleSelectSong(song)}
+                                    >
+                                        <div className='images'>
+                                            <img src={`https://cms.samespace.com/assets/${song.cover}`} alt={song.name} className="img-fluid" />
+                                        </div>
+                                        <div className='names'>
+                                            <p className='song-name'>{song.name}</p>
+                                            <p className='artist' style={{ color: "rgb(178 177 177)" }}>{song.artist}</p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </div>
+                    <div className='col-12 col-md-6 d-flex justify-content-center align-items-center'>
+                        {currentSong && (
+                            <MusicPlayer
+                                song={currentSong}
+                                isAudioPlaying={isAudioPlaying}
+                                togglePlay={togglePlay}
+                                handleNext={handleNext}
+                                handlePrev={handlePrev}
+                                backgroundColor={backgroundColor}
+                            />
+                        )}
+                    </div>
                 </div>
-                <div className='col-12 col-md-6 d-flex justify-content-center align-items-center'>
-                    {currentSong && (
-                        <MusicPlayer
-                            song={currentSong}
-                            isAudioPlaying={isAudioPlaying}
-                            togglePlay={togglePlay}
-                            handleNext={handleNext}
-                            handlePrev={handlePrev}
-                            backgroundColor={backgroundColor}
-                        />
-                    )}
-                </div>
-            </div>
+            )}
             <Sidebar isOpen={isSidebarOpen} onClose={handleSidebarClose} />
         </div>
     );

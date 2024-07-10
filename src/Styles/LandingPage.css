@@ -1,5 +1,4 @@
 .music-app-section {
-    /* background: rgb(26, 15, 5); */
     overflow: hidden;
 }
 
@@ -36,8 +35,6 @@
 .names p {
     margin-bottom: 0px;
     text-align: left;
-    /* font-weight: 400;
-    color: #FFFFFF; */
 }
 
 .contents {
@@ -57,8 +54,6 @@
 
 .logo {
     height: 30px;
-    /* width: 101px; */
-    /* padding-top: 4px; */
 }
 
 .profile {
@@ -109,23 +104,7 @@
     align-items: center;
     gap: 12px;
 }
-/* 
-@media only screen and (max-width: 768px){
-    .song-wrapper{
-        display: none;
-    }
-    .menu{
-        display: block;
-    }
-}
-@media only screen and (min-width: 768px){
-    .song-wrapper{
-        display: block;
-    }
-    .menu{
-        display: none;
-    }
-} */
+
 .volumeSlider {
     -webkit-appearance: none;
     width: 100px;
@@ -208,6 +187,14 @@
 .landing-container{
     min-height: 100vh;
 }
+
+.loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full viewport height to center it vertically */
+}
+
 
 
 
