@@ -1,6 +1,5 @@
-.music-app-section {
-    overflow: hidden;
-}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 
 .images img {
     height: 36px;
@@ -156,6 +155,8 @@
 
 
 
+
+
 /* .musicProgressBar:hover {
     opacity: 1;
 } */
@@ -205,6 +206,8 @@
 
 .landing-container{
     min-height: 100vh;
+    overflow: hidden;
+    font-family: 'Inter', sans-serif;
 }
 
 .loader {
