@@ -145,6 +145,7 @@ const LandingPage = () => {
         setCurrentSong(song);
         setCurrentIndex(songs.indexOf(song));
         setIsAudioPlaying(true);
+        handleSidebarClose()
     };
 
     const handleNext = () => {
@@ -194,6 +195,41 @@ const LandingPage = () => {
             setBackgroundColor(currentSong.accent);
         }
     }, [currentSong]);
+
+    const MobileSideBar = () => {
+        return (
+            <div className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
+                <button className="close-btn" onClick={handleSidebarClose}>×</button>
+                <div className="sidebar-content">
+                    <div className='song-wrapper w-100'>
+                        <div className='tracks text-center'>
+                            <h4 className='for-you'>For You</h4>
+                            <h4 className='top-track'>Top Tracks</h4>
+                        </div>
+                        <div className='search my-3'>
+                            <SearchBar searchTerm={searchTerm} handleSearchChange={handleSearchChange} />
+                        </div>
+                        {filteredSongs.map(song => (
+                            <div
+                                className={`${currentSong && currentSong.id === song.id ? 'selected-song' : ''} contents cursor-pointer p-2`}
+                                key={song.id}
+                                onClick={() => handleSelectSong(song)}
+                            >
+                                <div className='images'>
+                                    <img src={`https://cms.samespace.com/assets/${song.cover}`} alt={song.name} className="img-fluid" />
+                                </div>
+                                <div className='names'>
+                                    <p className='song-name'>{song.name}</p>
+                                    <p className='artist' style={{ color: "rgb(178 177 177)" }}>{song.artist}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
 
     return (
         <div className='landing-container container-fluid' style={{ backgroundColor }}>
@@ -254,7 +290,7 @@ const LandingPage = () => {
                     </div>
                 </div>
             )}
-            <Sidebar isOpen={isSidebarOpen} onClose={handleSidebarClose} />
+            {MobileSideBar()}
         </div>
     );
 };
