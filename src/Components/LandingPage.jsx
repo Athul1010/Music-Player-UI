@@ -179,6 +179,7 @@ const LandingPage = () => {
                 .then(res => {
                     setSongs(res.data.data);
                     setFilteredSongs(res.data.data);
+                    setCurrentSong(res.data.data[0]); // Set the first song as the default song
                     setLoading(false);
                 })
                 .catch(error => {
