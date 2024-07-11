@@ -1,35 +1,9 @@
-/* body{
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    box-sizing: border-box;
-} */
-/* .container{
-    min-height: 100vh;
-    min-width: 100vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: var(--mainColor);
-    font-family: 'Poppins';   
-} */
-
-/* .backgroundVideo{
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 100%;
-    object-fit: cover;
-    height: 100vh;
-    z-index: -1;
-    filter: saturate(2.5);
-} */
-
-/* .blackScreen{
-    width: 100vw;
-    height: 100vh;
-    position: absolute;
-    pointer-events: none;
-    background-color: rgba(17,17,17,0.2);
-} */
-
+.spotify{
+    background-color: black;
+}
+.spotify img{
+    height: 260px;
+}
+.spotify-wrapper{
+    color: #ffffff;
+}

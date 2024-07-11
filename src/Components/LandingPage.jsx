@@ -14,6 +14,7 @@ import { FaVolumeUp } from "react-icons/fa";
 import { SlOptions } from "react-icons/sl";
 import ScaleLoader from "react-spinners/ScaleLoader";
 import '../Styles/LandingPage.css';
+import { Link } from 'react-router-dom';
 
 const SearchBar = ({ searchTerm, handleSearchChange }) => (
     <Paper
@@ -203,7 +204,7 @@ const LandingPage = () => {
                 <div className="sidebar-content">
                     <div className='song-wrapper w-100'>
                         <div className='tracks text-center'>
-                            <h4 className='for-you'>For You</h4>
+                            <h4 className='for-you'><Link to={'/audio'} target="_blank">For You</Link></h4>
                             <h4 className='top-track'>Top Tracks</h4>
                         </div>
                         <div className='search my-3'>
@@ -252,7 +253,7 @@ const LandingPage = () => {
                             </div>
                             <div className='song-wrapper'>
                                 <div className='tracks text-center'>
-                                    <h4 className='for-you'>For You</h4>
+                                    <h4 className='for-you'><Link to={'/audio'} target="_blank">For You</Link></h4>
                                     <h4 className='top-track'>Top Tracks</h4>
                                 </div>
                                 <div className='search my-3'>
