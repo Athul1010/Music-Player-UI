@@ -6,7 +6,6 @@ import SearchIcon from '@mui/icons-material/Search';
 import axios from 'axios';
 import Logo from '../assets/Logo.png';
 import profile from '../assets/Profile.png';
-import Sidebar from './Sidebar';
 import { GiHamburgerMenu } from "react-icons/gi";
 import { faBackward, faForward, faPauseCircle, faCirclePlay } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -75,10 +74,7 @@ const MusicPlayer = ({ song, isAudioPlaying, togglePlay, handleNext, handlePrev,
                 <p className='music-Artist-Name'>{song.artist}</p>
             </div>
             <img src={`https://cms.samespace.com/assets/${song.cover}`} alt={song.name} id='songAvatar' />
-            <div className="musicTimerDiv">
-                {/* <p className='musicCurrentTime'>{formatTime(audioRef.current ? audioRef.current.currentTime : 0)}</p>
-                <p className='musicTotalLength'>{formatTime(audioRef.current ? audioRef.current.duration : 0)}</p> */}
-            </div>
+            <div className="musicTimerDiv"></div>
             <input
                 type="range"
                 name="musicProgressBar"
@@ -120,12 +116,6 @@ const MusicPlayer = ({ song, isAudioPlaying, togglePlay, handleNext, handlePrev,
     );
 };
 
-// const formatTime = (time) => {
-//     const minutes = Math.floor(time / 60);
-//     const seconds = Math.floor(time % 60);
-//     return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-// };
-
 const LandingPage = () => {
     const [isAudioPlaying, setIsAudioPlaying] = useState(false);
     const [songs, setSongs] = useState([]);
@@ -136,7 +126,7 @@ const LandingPage = () => {
     const [backgroundColor, setBackgroundColor] = useState('#0D0D0D');
     const [searchTerm, setSearchTerm] = useState('');
     const [loading, setLoading] = useState(true);
-    const loadingDuration = 3000; // loading duration 
+    const loadingDuration = 3000; 
 
     const handleSidebarOpen = () => setIsSidebarOpen(true);
     const handleSidebarClose = () => setIsSidebarOpen(false);
@@ -181,7 +171,7 @@ const LandingPage = () => {
                 .then(res => {
                     setSongs(res.data.data);
                     setFilteredSongs(res.data.data);
-                    setCurrentSong(res.data.data[0]); // Set the first song as the default song
+                    setCurrentSong(res.data.data[0]); 
                     setLoading(false);
                 })
                 .catch(error => {
@@ -277,7 +267,7 @@ const LandingPage = () => {
                             </div>
                         </div>
                     </div>
-                    <div className='col-12 col-md-6 d-flex justify-content-center align-items-center'>
+                    <div className='col-12 col-md-6 music_player d-flex justify-content-center align-items-center'>
                         {currentSong && (
                             <MusicPlayer
                                 song={currentSong}
